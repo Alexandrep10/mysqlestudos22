@@ -199,6 +199,42 @@ produtos
 INNER JOIN categorias ON categorias.id = produtos.from_categorias
 GROUP BY from_categorias
 
+/* mostrando como uma concatenação funciona */
+
+SELECT
+c.id,
+c.nome,
+COUNT(e.id) AS total_enderecos,
+CONCAT(
+	e.logradouro, ', ',
+    e.numero, ' | ',
+	IF(e.complemento IS NOT NULL, CONCAT(e.complemento, ' | '), ''),
+    e.bairro, ' | ',
+    e.cidade, ' | ',
+    e.estado, ' | CEP ',
+    e.cep
+) AS endereco
+FROM
+clientes c
+INNER JOIN clientes_enderecos e ON e.clientes_id = c.id AND e.principal = 1
+GROUP BY e.clientes_id
+ORDER BY e.clientes_id ASC;
+
+/* mostrando a media de nota de 3 alunos
+tem id, nome, nota1, nota2, nota3 como coluna
+
+ */
+
+SELECT nome, nota1, nota2, nota3,
+(nota1 + nota2 + nota3 ) /3 AS media,
+CASE
+	WHEN ((nota1 + nota2 + nota3 ) /3) < 8 THEN 'REPROVADO'
+    WHEN ((nota1 + nota2 + nota3 ) /3)  >= 8 THEN 'APROVADO'
+END AS situacaoAluno
+FROM 
+alunos0
+
+
 
 
 
