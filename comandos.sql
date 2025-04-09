@@ -127,3 +127,7 @@ SHOW GRANTS FOR CURRENT_USER
 /* CRIA UM NOVO USUÁRIOÇ */
 
 CREATE USER 'alexandre'@' localhost' IDENTIFIED BY '123'
+
+/* ATRIBUIR PERMISSOES PARA O USUARIO */
+
+GRANT SELECT ON alexandre.* TO 'alexandre'@' localhost';
