@@ -234,6 +234,25 @@ END AS situacaoAluno
 FROM 
 alunos0
 
+/* outro forma */
+
+SELECT
+nome,
+nota1,
+nota2,
+nota3,
+ROUND((nota1 + nota2 + nota 3) / 3, 1) AS media,
+CASE
+	WHEN (nota1 + nota2 + nota3) / 3 >= 9 THEN 'Aprovado'
+	ELSE 'Reprovado'
+END
+FROM alunos0
+
+/* USANDO IF */
+IF((nota1 + nota2 + nota3) / 3 >= 7, "aprovado", "reprovado") AS situacao_if
+FROM
+alunos0
+
 
 
 
