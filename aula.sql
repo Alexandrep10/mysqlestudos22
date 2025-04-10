@@ -130,6 +130,22 @@ IF((nota1 + nota2 + nota3) / 3 >= 7, "aprovado", "reprovado") AS situacao_if
 FROM
 alunos0
 
+----------------------------------------------------------------
+
+CREATE TABLE artigos (
+	id INT PRIMARY KEY AUTO_INCREMENT, -- tipo indice primary key
+    titulo VARCHAR(255),
+	username VARCHAR(50) UNIQUE, -- garante valores unicos
+    telfone CHAR(10),
+    conteudo TEXT,
+    data_create DATE,
+    INDEX idx_telefone (telefone),
+    KEY idx_data (data_create),
+    -- KEY E INDEX são a mesma coisa, o nome diferente é apenas sinonimo
+    FULLTEXT (conteudo), -- busca para textos
+    INDEX idx_varios (username, titulo) -- INDICE COMPOSTO
+    
+)
 
 
 
