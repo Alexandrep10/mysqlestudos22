@@ -124,10 +124,63 @@ RIGHT JOIN -> RETORNA TODOS OS REGISTROS DA TABELA DA DIREITA E TODOS QUE TENHAM
 
 SHOW GRANTS FOR CURRENT_USER
 
-/* CRIA UM NOVO USUÁRIOÇ */
+/* CRIA UM NOVO USUÁRIO */
 
 CREATE USER 'alexandre'@' localhost' IDENTIFIED BY '123'
 
 /* ATRIBUIR PERMISSOES PARA O USUARIO */
 
 GRANT SELECT ON alexandre.* TO 'alexandre'@' localhost';
+
+/* O * QUER DIZER QUE O USUARIO VAI TER ACESSO A QUALQUER BANCO */
+/* *.* VAI TER PERMISSÃO GERAL */
+
+GRANT SELECT, INSERT, UPDATE ON `alexandre`.* TO 'alexandre'@' localhost';
+
+/* PERMITE QUE O USUARIO FAÇA APENAS SELECT, INSERT E UPDATE */
+
+GRANT ALL PRIVILEGES ON alexandre.* TO 'alexandre'@'localhost'
+
+/* atribuir todos os privilégios para um usuário (CUIDADO) */
+
+REVOKE ALL PRIVILEGES ON alexandre.* FROM 'alexandre'@'localhost'
+
+/* REVOGAR PERMISSÃO DO USUÁRIO (FAZER ANTES DE DEMITIR) */
+
+REVOKE SELECT, INSERT ON alexandre.* FROM 'alexandre'@'localhost';
+
+/* LIMPA O CACHE E ATUALIZA PERMISSOES */
+
+FLUSH PRIVILEGES 
+
+/* LISTAR TODOS USUÁRIOS */
+
+SELECT user, host FROM mysql.user
+
+/* ALTERAR A SENHA DE UM USUÁRIO */
+
+ALTER USER 'alexandre'@'localhost' IDENTIFIED BY '1234'
+
+CREATE TABLE contas (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(150) NOT NULL,
+    saldo DECIMAL(10,2)
+);
+
+INSERT INTO contas (nome, saldo) VALUES
+("Diego", 100.00),
+("Maria", 500.00)
+
+/* CRIANDO UMA TRANSAÇÃO DE TRANSFERENCIA DE VALORES */
+
+START TRANSACTION
+
+UPDATE contas SET saldo = saldo - 200 WHERE nome = "Maria";
+SAVEPOINT depois_maria;
+UPDATE contas SET saldo = saldo + 200 WHERE nome = "Diego";
+
+ROLLBACK depois_maria;
+
+COMMIT;
+
+/* vai executar somente o maria, e se eu fizer algo errado consigo voltar com rollback para o savepoint */
